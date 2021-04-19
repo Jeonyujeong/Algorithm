@@ -1,3 +1,5 @@
+// 1952. [모의 SW 역량테스트] 수영장
+
 #include <iostream>
 #include <cstring>
 #include <algorithm>
