@@ -20,7 +20,8 @@ void print() {
     }
 }
 
-void down() {
+// 벽돌을 아래로 이동 시키기
+void down() {   
     for (int i=0; i<w; i++) {
         vector<int> b;
 
@@ -36,11 +37,10 @@ void down() {
     }   
 }
 
+// 충돌 일어나는 거 처리
 void crush(int y, int x) {
-    int visit[20][20] = {0};
     int num = block[y][x];
     block[y][x] = 0;
-    visit[y][x] = 1;
 
     if (num == 1) {
         return;
@@ -51,17 +51,17 @@ void crush(int y, int x) {
             int ny = y+ dy[i]*j;
             int nx = x+ dx[i]*j;
 
-            if (ny<0 || nx<0 || ny>=h || nx>=w || !block[ny][nx] || visit[ny][nx]) continue;
+            if (ny<0 || nx<0 || ny>=h || nx>=w || !block[ny][nx]) continue;
             if (block[ny][nx] == 1) {
                 block[ny][nx] = 0;
                 continue;
             }
             q.push({ny, nx});
-            visit[ny][nx] = 1;
         }
     }
 }
 
+// 가장 위에 있는 벽돌의 위치값 반환
 int topPos(int x) {
     for (int i=0; i<h; i++) {
         if (block[i][x] > 0) return i;
@@ -69,6 +69,7 @@ int topPos(int x) {
     return -1;
 }
 
+// 남은 벽돌의 개수 세기
 int count() {
     int cnt = 0;
     for (int i=0; i<h; i++) {
@@ -89,7 +90,7 @@ void simulation(int y, int x, int cnt) {
         x = q.front().second;
         q.pop();
 
-        crush(y, x);
+        crush(y, x);    // 연쇄적으로 벽돌 깨지는 부분
     }
 
     down();
@@ -97,8 +98,7 @@ void simulation(int y, int x, int cnt) {
     if (cnt > 0) {
         for (int i=0; i<w; i++) {
             int ty = topPos(i);
-            if (ty == -1) continue;
-            if (block[ty][i] == 0) continue;
+            if (ty == -1) continue; // 벽돌이 없는 컬럼
 
             memcpy(tmp, block, sizeof(block));
             simulation(ty, i, cnt-1);
