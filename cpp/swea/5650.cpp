@@ -14,23 +14,18 @@ int dx[4] = {0,1,0,-1};
 int n;
 int result;
 void simulation(int y, int x, int d) {
-    int cnt = 0;
+    int cnt = 0;    // 부딪치는 횟수
     int ny = y, nx = x, nd = d;
-    bool start = false;
+    bool start = false; // 시작체크
     while(true) {
-        if (y==2 && x==3 && d==1) {
-            // printf("%d %d\n", ny, nx);
-        }
-
+        // 벽에 부딪치는 경우로 인식
         if (ny<0 || nx<0 || ny>=n || nx>=n) {
-            nd = (nd+2)%4;  // 방향전환
-            ny += dy[nd];
-            nx += dx[nd];
             cnt = cnt*2 + 1;
             break;
         }
 
-        if (board[ny][nx] == -1 || (ny==y && nx==x && start)) {
+        // 블랙홀 또는 원래지점으로 돌아왔을 때 종료
+        if (board[ny][nx] == -1 || (ny==y && nx==x && start)) { 
             break;
         }
 
@@ -41,15 +36,12 @@ void simulation(int y, int x, int d) {
             continue;
         }
 
+        // 블락에 부딪치는 경우
         if (1 <= board[ny][nx] && board[ny][nx] <= 5) {
             int no = board[ny][nx];
             int bd = (nd+2)%4;
-            // printf("bd => %d %d\n", bd, block[no][bd]);
 
             if (block[no][bd]) { // 블락의 변에 맞을 때
-                nd = bd;
-                ny += dy[nd];
-                nx += dx[nd];
                 cnt = cnt*2 + 1;
                 break;
             }
@@ -57,7 +49,6 @@ void simulation(int y, int x, int d) {
                 for (int i=0; i<4; i++) 
                     if (bd != i && block[no][i] == 0) { // 90도로 방향변환
                         nd = i;
-                        // printf("i => %d\n", i);
                         ny += dy[nd];
                         nx += dx[nd];
                         break;
@@ -67,7 +58,8 @@ void simulation(int y, int x, int d) {
             continue;
         }
 
-        if (6 <= board[ny][nx] && board[ny][nx] <=10) { // 웜홀 이동
+        // 웜홀 이동
+        if (6 <= board[ny][nx] && board[ny][nx] <=10) { 
             int no = board[ny][nx]-6;
             ny = (worm[no][0].first == ny)?worm[no][1].first:worm[no][0].first; 
             nx = (worm[no][0].second == nx)?worm[no][1].second:worm[no][0].second;
@@ -106,7 +98,6 @@ int main(void) {
                 if (board[i][j] != 0) continue;
 
                 for (int d=0; d<4; d++) {
-                    // printf("dir => %d\n", d);
                     simulation(i, j, d);
                 }
             }
