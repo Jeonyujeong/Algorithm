@@ -18,6 +18,8 @@ int main(void) {
         cin >> v[i].first >> v[i].second;
     }
     
+    // sort 는 동일한 정렬 기준에 대해 순서를 유지해준다는 보장이 없다. 
+    // stable_sort 는 동일한 정렬 기준에 대해 순서 유지를 보장한다.
     stable_sort(v.begin(), v.end(), compare);
 
     for (int i=0; i<N; i++) {
