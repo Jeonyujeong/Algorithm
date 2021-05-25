@@ -33,3 +33,6 @@
 
 *.json
 tempCodeRunnerFile.cpp
+
+# blog test code
+blog/
