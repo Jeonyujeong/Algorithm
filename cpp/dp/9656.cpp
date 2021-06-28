@@ -1,4 +1,4 @@
-// BOJ 1965. 돌 게임2
+// BOJ 9656. 돌 게임2
 #include <iostream>
 
 using namespace std;
